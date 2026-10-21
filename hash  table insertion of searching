@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define SIZE 10
+
+int hash[SIZE];
+
+void insert(int key) {
+    int idx = key % SIZE, orig = idx, i = 0;
+    while (hash[idx] != -1) {
+        if (hash[idx] == key) return; // Prevent duplicates
+        idx = (orig + ++i) % SIZE;
+        if (idx == orig) { printf("Table Full\n"); return; }
+    }
+    hash[idx] = key;
+    printf("Inserted at %d\n", idx);
+}
+
+void search(int key) {
+    int idx = key % SIZE, orig = idx, i = 0;
+    while (hash[idx] != -1) {
+        if (hash[idx] == key) { printf("Found at %d\n", idx); return; }
+        idx = (orig + ++i) % SIZE;
+        if (idx == orig) break;
+    }
+    printf("Not Found\n");
+}
+
+int main() {
+    int ch, key;
+    for(int i=0; i<SIZE; i++) hash[i] = -1; // Initialize
+
+    while(1) {
+        printf("\n1.Insert 2.Search 3.Exit: ");
+        scanf("%d", &ch);
+        if(ch == 3) break;
+        printf("Enter key: ");
+        scanf("%d", &key);
+        if(ch == 1) insert(key);
+        else if(ch == 2) search(key);
+    }
+    return 0;
+}
